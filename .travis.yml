@@ -5,12 +5,11 @@ go:
   - 1.6
 
 install:
-  - export VERSION="${VERSION:-latest}"
   - make
 
 script:
   - make test
-  - make VERSION="$VERSION" dist
+  - make VERSION="${VERSION:-latest}" dist
 
 deploy:
   provider: releases

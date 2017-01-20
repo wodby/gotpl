@@ -1,4 +1,4 @@
-VERSION ?= 0
+VERSION ?= latest
 
 .PHONY: build test dist
 
