@@ -9,7 +9,7 @@ install:
 
 script:
   - make test
-  - make VERSION="${VERSION:-latest}" dist
+  - make VERSION="${TRAVIS_TAG:-latest}" dist
 
 deploy:
   provider: releases
