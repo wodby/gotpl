@@ -7,13 +7,19 @@ install: make
 
 script: make test
 
-after_success:
+deploy:
   - make dist
   - provider: releases
     api_key:
       secure: $GITHUB_ACCESS_TOKEN
-    file: ./dist/*/*/gotpl
-    file_glob: true
+    file:
+      - dist/alpine-linux/amd64/gotpl
+      - dist/linux/amd64/gotpl
+      - dist/linux/i386/gotp
+      - dist/linux/armel/gotpl
+      - dist/linux/armhf/gotpl
+      - dist/darwin/amd64/gotpl
+      - dist/darwin/i386/gotpl
     skip_cleanup: true
     on:
       repo: wodby/gotpl
