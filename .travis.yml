@@ -1,0 +1,17 @@
+language: go
+go:
+  - 1.6
+
+install: make
+
+script: make test
+
+before_deploy: "echo 'ready to deploy?'"
+  - provider: releases
+    api_key:
+      secure: "GITHUB PERSONAL ACCESS TOKEN"
+    file: "FILE(S) TO UPLOAD"
+    on:
+      repo: <github-username/repo>
+      tags: true
+      all_branches: true
