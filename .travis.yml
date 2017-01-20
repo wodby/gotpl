@@ -1,5 +1,4 @@
 language: go
-sudo: false
 
 go:
   - 1.6
@@ -31,4 +30,3 @@ deploy:
 notifications:
   email:
     on_success: never
-    on_error: never
