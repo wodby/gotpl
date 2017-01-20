@@ -26,7 +26,6 @@ deploy:
     - gotpl-darwin-amd64-*.tar.gz
     - gotpl-darwin-i386-*.tar.gz
   on:
-    branch: master
     tags: true
 
 notifications:
