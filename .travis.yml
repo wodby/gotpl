@@ -30,3 +30,4 @@ after_success:
 notifications:
   email:
     on_success: never
+    on_error: never
