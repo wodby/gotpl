@@ -1,4 +1,5 @@
 language: go
+
 go:
   - 1.6
 
@@ -6,12 +7,18 @@ install: make
 
 script: make test
 
-before_deploy: "echo 'ready to deploy?'"
+after_success: make dist
+
+before_deploy:
   - provider: releases
     api_key:
-      secure: "GITHUB PERSONAL ACCESS TOKEN"
-    file: "FILE(S) TO UPLOAD"
+      secure: $GITHUB_ACCESS_TOKEN
+    file: ./dist
     on:
-      repo: <github-username/repo>
+      repo: wodby/gotpl
       tags: true
       all_branches: true
+
+notifications:
+  email:
+    on_success: never

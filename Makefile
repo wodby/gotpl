@@ -9,9 +9,6 @@ test:
 
 dist:
 	rm -rf dist
-	rm -f gotpl-alpine-linux-*.tar.gz
-	rm -f gotpl-linux-*.tar.gz
-	rm -f gotpl-darwin-*.tar.gz
 
 	mkdir -p dist/alpine-linux/amd64 && GOOS=linux GOARCH=amd64 go build -ldflags -a -tags netgo -installsuffix netgo -o dist/alpine-linux/amd64/gotpl .
 	mkdir -p dist/linux/amd64 && GOOS=linux GOARCH=amd64 go build -ldflags -o dist/linux/amd64/gotpl .
