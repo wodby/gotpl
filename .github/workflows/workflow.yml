@@ -58,9 +58,9 @@ jobs:
     - name: install dependencies
       run: apk add --update musl-dev gcc build-base bash git tar
 # This doesn't work on arm64 self-hosted runners, have to checkout manually.
-#    - uses: actions/checkout@v2
-    - name: checkout
-      run: git fetch ${GITHUB_SHA} && git checkout ${GITHUB_SHA}
+    - uses: actions/checkout@master
+#    - name: checkout
+#      run: git fetch ${GITHUB_SHA} && git checkout ${GITHUB_SHA}
     - name: build
       run: make
     - name: test
