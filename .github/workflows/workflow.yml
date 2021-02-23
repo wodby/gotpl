@@ -57,6 +57,8 @@ jobs:
     steps:
     - name: install dependencies
       run: apk add --update musl-dev gcc build-base bash git tar
+# This doesn't work on arm64 self-hosted runners, have to checkout manually.
+#    - uses: actions/checkout@v2
     - name: checkout
       run: git pull && git checkout ${GITHUB_SHA}
     - name: build
