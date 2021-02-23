@@ -15,12 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [linux,darwin]
         arch: [amd64,arm64]
     container:
       image: golang:alpine
     env:
-      GOOS: ${{ matrix.os }}
       GOARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
