@@ -57,10 +57,10 @@ jobs:
     steps:
     - name: install dependencies
       run: apk add --update musl-dev gcc build-base bash git tar
-# This doesn't work on arm64 self-hosted runners, have to checkout manually.
-    - uses: actions/checkout@master
-#    - name: checkout
-#      run: git fetch ${GITHUB_SHA} && git checkout ${GITHUB_SHA}
+# This doesn't work on Alpine arm64 self-hosted runners, have to checkout manually.
+#    - uses: actions/checkout@master
+    - name: checkout
+      run: git checkout ${GITHUB_REF} && git pull && git checkout ${GITHUB_SHA}
     - name: build
       run: make
     - name: test
