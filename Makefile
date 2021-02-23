@@ -4,7 +4,7 @@ LDFLAGS = '-w -linkmode external -extldflags "-static"'
 
 build:
 	mkdir -p ./bin
-	go build --ldflags $(LDFLAGS) -o ./bin/gotpl .
+	go build -o ./bin/gotpl .
 
 test:
 	./test.sh
