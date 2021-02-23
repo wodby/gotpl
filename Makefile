@@ -7,11 +7,10 @@ GOARCH ?= amd64
 
 build:
 	mkdir -p ./bin
-	CC=$(which gcc) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl-$(GOOS)-$(GOARCH) .
+	CC=$(which gcc) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl .
 
 test:
-	cp ./bin/gotpl-$(GOOS)-$(GOARCH) ./bin/gotpl
 	./test.sh
 
 package:
-	tar -cvzf gotpl-$(GOOS)-$(GOARCH).tar.gz -C /bin gotpl-$(GOOS)-$(GOARCH)
+	tar -cvzf gotpl-$(GOOS)-$(GOARCH).tar.gz -C bin gotpl
