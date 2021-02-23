@@ -13,13 +13,11 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [amd64,arm64]
     container:
       image: golang:alpine
     env:
-      GOARCH: ${{ matrix.arch }}
+      GOOS: linux
+      GOARCH: amd64
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
@@ -50,23 +48,28 @@ jobs:
     container:
       image: golang:alpine
     env:
+      GOOS: linux
       GOARCH: arm64
     steps:
     - name: install dependencies
       run: apk add --update musl-dev gcc build-base bash git
 # doesn't work on arm64.
 #    - uses: actions/checkout@v2
-    - name: clone
-      run: git clone https://github.com/wodby/gotpl && cd gotpl && git checkout $GITHUB_SHA
-    - name: build
-      run: make
-    - name: test
-      run: make test
+    - name: clone and build
+      run: |
+        set -e
+        git clone https://github.com/wodby/gotpl
+        cd gotpl
+        git checkout $GITHUB_SHA
+        make
+        make test
     - name: prepare artifact
       if: startsWith(github.ref, 'refs/tags/')
+      working-directory: gotpl
       run: make package
     - name: Get the version
       if: startsWith(github.ref, 'refs/tags/')
+      working-directory: gotpl
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - uses: xresloader/upload-to-github-release@v1
@@ -74,7 +77,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: gotpl-*.tar.gz
+        file: gotpl/gotpl-*.tar.gz
         overwrite: true
         tags: true
         draft: false
