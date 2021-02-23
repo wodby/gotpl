@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - master
+
+    tags:
+    - '*'
+
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.13
+    - name: build
+      run: make
+    - name: test
+      run: make test
+  release-github:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build-and-test
+    steps:
+    - uses: actions/checkout@v2
+    - name: prepare artifact
+      run: make
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - uses: xresloader/upload-to-github-release@v1
+      id: upload_artifact
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: gotpl-*.tar.gz
+        overwrite: true
+        tags: true
+        draft: false
+        tag_name: ${{ steps.get_version.outputs.VERSION }}

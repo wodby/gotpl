@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wodby/gotpl.svg?branch=master)](https://travis-ci.org/wodby/gotpl)
+[![Build Status](https://github.com/wodby/gotpl/workflows/Build/badge.svg)](https://github.com/wodby/gotpl/actions)
 
 # Lighweight go-based template engine
 
