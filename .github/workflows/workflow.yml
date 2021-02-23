@@ -56,7 +56,7 @@ jobs:
       GOARCH: arm64
     steps:
     - name: install dependencies
-      run: apk add --update musl-dev gcc build-base bash git
+      run: apk add --update musl-dev gcc build-base bash git tar
     - name: build
       run: make
     - name: test
