@@ -7,7 +7,7 @@ GOARCH ?= amd64
 
 build:
 	mkdir -p ./bin
-	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl-$(GOOS)-$(GOARCH) .
+	CC=$(which gcc) GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl-$(GOOS)-$(GOARCH) .
 
 test:
 	cp ./bin/gotpl-$(GOOS)-$(GOARCH) ./bin/gotpl
