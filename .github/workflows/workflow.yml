@@ -60,7 +60,7 @@ jobs:
 # This doesn't work on arm64 self-hosted runners, have to checkout manually.
 #    - uses: actions/checkout@v2
     - name: checkout
-      run: git checkout ${GITHUB_SHA}
+      run: git fetch ${GITHUB_SHA} && git checkout ${GITHUB_SHA}
     - name: build
       run: make
     - name: test
