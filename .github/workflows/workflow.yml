@@ -61,8 +61,8 @@ jobs:
 # 4. install dependencies: apk add --update musl-dev gcc build-base bash git tar curl
 # 5. clone repo in the bind mount: cd /test && git clone https://github.com/wodby/gotpl && cd gotpl
 # 6. build: GOARCH=arm64 make
-# 7. test: make test
-# 8. package: make package
+# 7. test: GOARCH=arm64 make test
+# 8. package: GOARCH=arm64 make package
 # 9. quit docker container
 # 10. download gotpl-linux-arm64.tar.gz from the bind mound on the host machine via scp
 ################################################################################################################
