@@ -54,7 +54,10 @@ jobs:
     steps:
     - name: install dependencies
       run: apk add --update musl-dev gcc build-base bash git
-    - uses: actions/checkout@v2
+# doesn't work on arm64.
+#    - uses: actions/checkout@v2
+    - name: clone
+      run: git clone https://github.com/wodby/gotpl && cd gotpl && git checkout $GITHUB_SHA
     - name: build
       run: make
     - name: test
