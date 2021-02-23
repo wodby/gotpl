@@ -60,7 +60,10 @@ jobs:
 # This doesn't work on Alpine arm64 self-hosted runners, have to checkout manually.
 #    - uses: actions/checkout@master
     - name: checkout
-      run: git checkout master && git pull && git checkout ${GITHUB_REF}
+      # @fixme hardcoded branch name, we can't fetch it from GITHUB_REF because it may be a tag,
+      # in this case tag is probably not yet available locally and mast be pulled first.
+      # we assume we always have a single branch.
+      run: git checkout master && git pull && git checkout ${GITHUB_SHA}
     - name: build
       run: make
     - name: test
