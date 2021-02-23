@@ -25,7 +25,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
-      run: apk add --update make gcc bash
+      run: apk add --update build-base bash
     - name: build
       run: make
     - name: test
