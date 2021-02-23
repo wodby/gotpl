@@ -11,7 +11,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build-test-release-amd64:
     runs-on: ubuntu-latest
     container:
       image: golang:alpine
@@ -43,7 +43,7 @@ jobs:
         tags: true
         draft: false
         tag_name: ${{ steps.get_version.outputs.VERSION }}
-  build-and-test-arm64:
+  build-test-release-arm64:
     # run on arm64 to run arm64 golang image.
     runs-on: self-hosted
     defaults:
