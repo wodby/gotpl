@@ -15,6 +15,7 @@ dist:
 	mkdir -p dist/linux/amd64 && GOOS=linux GOARCH=amd64 go build -o dist/linux/amd64/gotpl .
 	mkdir -p dist/darwin/amd64 && GOOS=darwin GOARCH=amd64 go build -o dist/darwin/amd64/gotpl .
 	mkdir -p dist/linux/arm64 && GOOS=linux GOARCH=arm64 go build -o dist/linux/arm64/gotpl .
+	## Go 1.16 required.
 	mkdir -p dist/darwin/arm64 && GOOS=darwin GOARCH=arm64 go build -o dist/darwin/arm64/gotpl .
 
 	tar -cvzf gotpl-linux-amd64.tar.gz -C dist/linux/amd64 gotpl
