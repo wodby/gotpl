@@ -25,12 +25,19 @@ jobs:
       run: make test
   build-and-test-alpine:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux,darwin]
+        arch: [amd64,arm64]
     container:
       image: golang:alpine
+    env:
+      GOOS: ${{ matrix.os }}
+      GOARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
-      run: apk add --update make gcc
+      run: apk add --update make gcc bash
     - name: build
       run: make
     - name: test
@@ -48,7 +55,7 @@ jobs:
     - name: build
       run: make
     - name: prepare artifact
-      run: make dist
+      run: make package
     - name: Get the version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
