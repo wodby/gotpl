@@ -52,9 +52,9 @@ jobs:
     env:
       GOARCH: arm64
     steps:
-    - uses: actions/checkout@v2
     - name: install dependencies
-      run: apk add --update musl-dev gcc build-base bash
+      run: apk add --update musl-dev gcc build-base bash git
+    - uses: actions/checkout@v2
     - name: build
       run: make
     - name: test
