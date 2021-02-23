@@ -1,3 +1,4 @@
 .idea/
 bin/
 test/*.out
+dist/
