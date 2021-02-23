@@ -10,7 +10,7 @@ build:
 	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl-$(GOOS)-$(GOARCH) .
 
 test:
-	ln -s ./bin/gotpl-$(GOOS)-$(GOARCH) ./bin/gotpl
+	cp ./bin/gotpl-$(GOOS)-$(GOARCH) ./bin/gotpl
 	./test.sh
 
 package:
