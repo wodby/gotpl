@@ -60,7 +60,7 @@ jobs:
 # This doesn't work on Alpine arm64 self-hosted runners, have to checkout manually.
 #    - uses: actions/checkout@master
     - name: checkout
-      run: git checkout ${GITHUB_REF} && git pull && git checkout ${GITHUB_SHA}
+      run: echo "${GITHUB_REF}" && git checkout ${GITHUB_REF}
     - name: build
       run: make
     - name: test
