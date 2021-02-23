@@ -45,6 +45,10 @@ jobs:
         tag_name: ${{ steps.get_version.outputs.VERSION }}
   build-and-test-arm64:
     runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: gotpl
     container:
       image: golang:alpine
     env:
