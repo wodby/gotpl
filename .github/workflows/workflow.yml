@@ -78,6 +78,11 @@ jobs:
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: upload artifact
       run: |
+        curl -v -i -X POST -H \
+          "Content-Type:application/json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/wodby/gotpl/releases -d '{"tag_name":"${{ steps.get_version.outputs.VERSION }}","name": "${{ steps.get_version.outputs.VERSION }}","draft": false,"prerelease": false}'
+
         curl \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: $(file -b --mime-type gotpl-linux-arm64.tar.gz)" \
