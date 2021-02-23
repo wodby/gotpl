@@ -58,6 +58,7 @@ jobs:
     - name: clone and build
       run: |
         set -e
+        ls -la
         git clone https://github.com/wodby/gotpl
         cd gotpl
         git checkout $GITHUB_SHA
