@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install dependencies
-      run: apk add --update musl-dev build-base bash
+      run: apk add --update musl-dev gcc build-base bash
     - name: build
       run: make
     - name: test
