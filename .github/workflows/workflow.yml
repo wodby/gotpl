@@ -29,6 +29,8 @@ jobs:
     needs: build-and-test
     steps:
     - uses: actions/checkout@v2
+    - name: build
+      run: make
     - name: prepare artifact
       run: make dist
     - name: Get the version
