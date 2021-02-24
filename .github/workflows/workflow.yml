@@ -43,7 +43,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         file: gotpl-*.tar.gz
-        overwrite: true
+        overwrite: false
         tags: true
         draft: false
         tag_name: ${{ steps.get_version.outputs.VERSION }}
