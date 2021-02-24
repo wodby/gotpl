@@ -5,7 +5,7 @@ GOARCH ?= amd64
 
 build:
 	mkdir -p ./bin
-	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x -o ./bin/gotpl .
+	CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x -o ./bin/gotpl .
 
 test:
 	./test.sh
