@@ -28,6 +28,7 @@ jobs:
     - name: build
       run: make
     - name: test
+      # @fixme: return test for non-amd64 arch when github will add support for other architectures (arm64)
       if: ${{ matrix.arch == 'amd64' }}
       run: make test
     - name: prepare artifact
