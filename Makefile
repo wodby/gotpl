@@ -1,5 +1,3 @@
-LDFLAGS = '-w -linkmode external -extldflags "-static"'
-
 .PHONY: build test package
 
 GOOS ?= linux
@@ -7,7 +5,7 @@ GOARCH ?= amd64
 
 build:
 	mkdir -p ./bin
-	CC=$(which gcc) CGO_ENABLED=1 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x --ldflags $(LDFLAGS) -o ./bin/gotpl .
+	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -x -o ./bin/gotpl .
 
 test:
 	./test.sh

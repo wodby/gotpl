@@ -13,15 +13,18 @@ on:
 jobs:
   build-test-release-alpine-amd64:
     runs-on: ubuntu-latest
-    container:
-      image: golang:alpine
+    strategy:
+      matrix:
+        arch: [amd64,arm64]
     env:
       GOOS: linux
-      GOARCH: amd64
+      GOARCH: ${{ matrix.arch }}
     steps:
     - uses: actions/checkout@v2
-    - name: install dependencies
-      run: apk add --update musl-dev gcc build-base bash
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
     - name: build
       run: make
     - name: test
@@ -43,87 +46,3 @@ jobs:
         tags: true
         draft: false
         tag_name: ${{ steps.get_version.outputs.VERSION }}
-#
-################################################################################################################
-# ARM64 artifact must be compiled and uploaded to github manually
-# The problem with this job is that we have to use a self-hosted arm64 to run arm64 alpine image
-# to statically compile arm64 binary against arm64 libraries.
-# However, running github's actions don't work on arm64 when uses a container
-# It fails with the following error:
-# Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64
-# I tried to reproduce all actions including artifact upload manually (via curl) but it didn't work for some reason
-# Not worth the troubles, so I did everything manually.
-#
-# HOW TO COMPILE MANUALLY
-# 1. deploy aws graviton vm
-# 2. install docker
-# 3. run docker container: docker run --rm -ti -v $PWD:/test golang:alpine sh
-# 4. install dependencies: apk add --update musl-dev gcc build-base bash git tar curl
-# 5. clone repo in the bind mount: cd /test && git clone https://github.com/wodby/gotpl && cd gotpl
-# 6. build: GOARCH=arm64 make
-# 7. test: GOARCH=arm64 make test
-# 8. package: GOARCH=arm64 make package
-# 9. quit docker container
-# 10. download gotpl-linux-arm64.tar.gz from the bind mound on the host machine via scp
-################################################################################################################
-#
-#
-#  build-test-release-arm64:
-#    # run on arm64 to run arm64 golang image.
-#    runs-on: self-hosted
-#    defaults:
-#      run:
-#        working-directory: gotpl
-#    container:
-#      image: golang:alpine
-#    env:
-#      GOOS: linux
-#      GOARCH: arm64
-#    steps:
-#    - name: install dependencies
-#      run: apk add --update musl-dev gcc build-base bash git tar curl
-##### doesn't work on alpine:
-#####        Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64
-##    - uses: actions/checkout@master
-#    - name: checkout
-#      # @fixme hardcoded branch name, we can't fetch it from GITHUB_REF because it may be a tag,
-#      # in this case tag is probably not yet available locally and mast be pulled first.
-#      # we assume we always have a single branch.
-#      run: git checkout master && git pull && git checkout ${GITHUB_SHA}
-#    - name: build
-#      run: make
-#    - name: test
-#      run: make test
-#    - name: prepare artifact
-#      if: startsWith(github.ref, 'refs/tags/')
-#      run: make package
-#    - name: Get the version
-#      if: startsWith(github.ref, 'refs/tags/')
-#      id: get_version
-#      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-#    - name: upload artifact
-#      # @fixme I couldn't make this work, uploading artfacvt via curl fails for some reason.
-#      run: |
-#        curl -v -i -X POST -H \
-#          "Content-Type:application/json" \
-#          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-#          https://api.github.com/repos/wodby/gotpl/releases -d '{"tag_name":"${{ steps.get_version.outputs.VERSION }}","name": "${{ steps.get_version.outputs.VERSION }}","draft": false,"prerelease": false}'
-#
-#        curl \
-#            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-#            -H "Content-Type: $(file -b --mime-type gotpl-linux-arm64.tar.gz)" \
-#            --data-binary @gotpl-linux-arm64.tar.gz \
-#            "https://uploads.github.com/repos/wodby/gotpl/releases/${{ steps.get_version.outputs.VERSION }}/assets?name=$(basename gotpl-linux-arm64.tar.gz)"
-##### doesn't work on alpine:
-#####        Error: JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64
-#####
-##    - uses: xresloader/upload-to-github-release@v1
-##      if: startsWith(github.ref, 'refs/tags/')
-##      env:
-##        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-##      with:
-##        file: gotpl-*.tar.gz
-##        overwrite: true
-##        tags: true
-##        draft: false
-##        tag_name: ${{ steps.get_version.outputs.VERSION }}
